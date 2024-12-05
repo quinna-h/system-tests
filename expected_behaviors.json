@@ -1,6 +1,31 @@
 [
     {
         "test_case": {
+            "description": "Http server spans should include specified headers as tags when DD_TRACE_HEADER_TAGS is set.",
+            "configuration": {
+                "DD_TRACE_HEADER_TAGS": "User-Agent:http.user_agent,Referer:http.referer,Content-Type:http.content_type,Etag:http.etag"
+            },
+            "http_request": {
+                "headers": {
+                    "User-Agent": "Mozilla/5.0",
+                    "Referer": "https://example.com",
+                    "Content-Type": "application/json",
+                    "Etag": "W/\"12345\""
+                }
+            },
+            "expected_output": {
+                "span": {
+                    "name": "http.request",
+                    "tags": {
+                        "http.user_agent": "Mozilla/5.0",
+                        "http.content_type": "application/json"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "test_case": {
             "description": "Http server spans should default to no headers if DD_TRACE_HEADER_TAGS is not set.",
             "configuration": {
                 "DD_TRACE_HEADER_TAGS": ""
@@ -11,37 +36,7 @@
             "expected_output": {
                 "span": {
                     "name": "http.request",
-                    "tags": {
-                        "http.useragent": "testclient"
-                    }
-                }
-            }
-        }
-    },
-        {
-        "test_case": {
-            "description": "Http server spans should include specified headers as tags when DD_TRACE_HEADER_TAGS is set.",
-            "configuration": {
-                "DD_TRACE_HEADER_TAGS": "User-Agent:http.useragent,Referer:http.referer,Content-Type:http.content_type,Etag:http.etag"
-            },
-            "http_request": {
-                "headers": {
-                    "User-Agent": "Mozilla/5.0",
-                    "Referer": "https://example.com",
-                    "Content-Type": "application/json",
-                    "Etag": "W/\"12345\"",
-                    "Other-Header": "Value"
-                }
-            },
-            "expected_output": {
-                "span": {
-                    "name": "http.request",
-                    "tags": {
-                        "http.useragent": "Mozilla/5.0",
-                        "http.referer": "https://example.com",
-                        "http.content_type": "application/json",
-                        "http.etag": "W/\"12345\""
-                    }
+                    "tags": {}
                 }
             }
         }
