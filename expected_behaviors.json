@@ -22,7 +22,7 @@
         "test_case": {
             "description": "Http server spans should include specified headers as tags when DD_TRACE_HEADER_TAGS is set.",
             "configuration": {
-                "DD_TRACE_HEADER_TAGS": "User-Agent:http.user_agent,Referer:http.referer,Content-Type:http.content_type,Etag:http.etag"
+                "DD_TRACE_HEADER_TAGS": "User-Agent:http.useragent,Referer:http.referer,Content-Type:http.content_type,Etag:http.etag"
             },
             "http_request": {
                 "headers": {
